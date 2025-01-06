@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SEO Report</title>
+    <link rel="stylesheet" href="../static/style.css" />
+  </head>
+  <body>
+    <div class="bg"></div>
+
+    <nav class="navbar">
+      <div class="logo">
+        <a href="https://www.noolmedia.in/"
+          ><img src="../static/nool.png" alt="Logo"
+        /></a>
+      </div>
+      <ul class="nav-items">
+        <li><a href="https://www.noolmedia.in/">Home</a></li>
+        <li>
+          <a href="https://www.noolmedia.in/#mediaiskgjyue11">Services</a>
+        </li>
+        <li><a href="https://www.noolmedia.in/#comp-m0f8afp6">About Us</a></li>
+        <li><a href="https://www.noolmedia.in/blog">Blog</a></li>
+        <li><a href="https://www.noolmedia.in/#comp-lsvshvee">Projects</a></li>
+        <li>
+          <a href="https://www.noolmedia.in/#comp-lsvshvef1">Lets Talk</a>
+        </li>
+        <li><a href="https://www.noolmedia.in/#portfolio">Portfolio</a></li>
+      </ul>
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </nav>
+    <h1>SEO Report for {{ url }}</h1>
+    <p style="font-size: 5rem; text-align: center">
+      <strong>Score:</strong> {{ score }}/10
+    </p>
+    <div class="report-container">
+      <h2>Summary</h2>
+      <p><strong>What we found:</strong></p>
+      <ul>
+        {% if seo_report.metadata.title %}
+        <li>Title is present.</li>
+        {% else %}
+        <li>Title is missing!</li>
+        {% endif %} {% if seo_report.metadata.description %}
+        <li>Meta description is present.</li>
+        {% else %}
+        <li>Meta description is missing!</li>
+        {% endif %} {% if seo_report.headers.h1 %}
+        <li>H1 tag is present on the page.</li>
+        {% else %}
+        <li>H1 tag is missing!</li>
+        {% endif %} {% if seo_report.images.missing_alt %}
+        <li>
+          {{ seo_report.images.missing_alt|length }} image(s) are missing alt
+          text!
+        </li>
+        {% else %}
+        <li>All images have alt text.</li>
+        {% endif %} {% if seo_report.links.broken_links %}
+        <li>
+          {{ seo_report.links.broken_links|length }} broken link(s) found!
+        </li>
+        {% else %}
+        <li>No broken links found.</li>
+        {% endif %}
+      </ul>
+
+      <h2>Areas to Improve</h2>
+      <ul>
+        {% if not seo_report.metadata.title %}
+        <li>Add a descriptive and concise page title.</li>
+        {% endif %} {% if not seo_report.metadata.description %}
+        <li>Provide a meta description to improve click-through rates.</li>
+        {% endif %} {% if not seo_report.headers.h1 %}
+        <li>Include an H1 tag to improve content hierarchy.</li>
+        {% endif %} {% if seo_report.images.missing_alt %}
+        <li>
+          Add alt text to {{ seo_report.images.missing_alt|length }} image(s)
+          for better accessibility.
+        </li>
+        {% endif %} {% if seo_report.links.broken_links %}
+        <li>
+          Fix or remove {{ seo_report.links.broken_links|length }} broken
+          link(s) to enhance user experience.
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+    <div class="back-home">
+      <a href="https://www.noolmedia.in/#comp-lsvshvef1"
+        >Click here to get the detailed report</a
+      >
+    </div>
+  </body>
+  <script>
+    let button = document.querySelector("button");
+    let item = document.querySelector("button .round");
+
+    button.addEventListener("mouseenter", function (event) {
+      this.classList += " animate";
+
+      let buttonX = event.offsetX;
+      let buttonY = event.offsetY;
+
+      if (buttonY < 24) {
+        item.style.top = 0 + "px";
+      } else if (buttonY > 30) {
+        item.style.top = 48 + "px";
+      }
+
+      item.style.left = buttonX + "px";
+      item.style.width = "1px";
+      item.style.height = "1px";
+    });
+
+    button.addEventListener("mouseleave", function () {
+      this.classList.remove("animate");
+
+      let buttonX = event.offsetX;
+      let buttonY = event.offsetY;
+
+      if (buttonY < 24) {
+        item.style.top = 0 + "px";
+      } else if (buttonY > 30) {
+        item.style.top = 48 + "px";
+      }
+      item.style.left = buttonX + "px";
+    });
+    document.getElementById("hamburger").addEventListener("click", function () {
+      const navItems = document.querySelector(".nav-items");
+      navItems.classList.toggle("active");
+    });
+    function showLoading() {
+      document.getElementById("loading").classList.add("active");
+    }
+
+    // Function to hide the loading overlay when the page has loaded
+    window.onload = function () {
+      document.getElementById("loading").classList.remove("active");
+    };
+  </script>
+</html>

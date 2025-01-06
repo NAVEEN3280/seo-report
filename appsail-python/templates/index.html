@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SEO Report Generator</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    <style>
+      .blurred {
+        filter: blur(5px);
+        pointer-events: none;
+      }
+      .contact-button {
+        display: block;
+        margin: 20px auto;
+        text-align: center;
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .contact-button:hover {
+        background-color: #218838;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg"></div>
+    
+    <nav class="navbar">
+        <div class="logo">
+            <a href="https://www.noolmedia.in/"><img src="../static/nool.png" alt="Logo" /></a>
+        </div>
+        <ul class="nav-items">
+            <li><a href="https://www.noolmedia.in/">Home</a></li>
+            <li><a href="https://www.noolmedia.in/#mediaiskgjyue11">Services</a></li>
+            <li><a href="https://www.noolmedia.in/#comp-m0f8afp6">About Us</a></li>
+            <li><a href="https://www.noolmedia.in/blog">Blog</a></li>
+            <li><a href="https://www.noolmedia.in/#comp-lsvshvee">Projects</a></li>
+            <li><a href="https://www.noolmedia.in/#comp-lsvshvef1">Lets Talk</a></li>
+            <li><a href="https://www.noolmedia.in/#portfolio">SEO analyzer</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+    
+    </div>
+    <h1>SEO Audit & Reporting Tool</h1>
+    <div class="container">
+      <form action="/seo_report" method="POST">
+        <input type="url" name="url" placeholder="Enter Website URL" required />
+        <button type="submit">
+          AUDIT
+          <span class="round" />
+        </button>
+      </form>
+      {% if error %}
+      <p class="error">{{ error }}</p>
+      {% endif %} {% if seo_report %}
+      <!-- <h2 style="text-align: center;">SEO Report for {{ url }}</h2> -->
+      <p style="font-size: 5rem;text-align: center;">Score:</> {{ score }}/10</p>
+
+      <h3>Metadata</h3>
+      <p>
+        <strong>Title:</strong> {{ seo_report.metadata.title or "Missing" }}
+      </p>
+      <p>
+        <strong>Description:</strong> {% if seo_report.metadata.description %}
+        {{ seo_report.metadata.description[:50] }}<span class="blurred"
+          >...</span
+        >
+        {% else %} Missing {% endif %}
+      </p>
+
+      <h3>Headers</h3>
+      <div class="blurred">
+        {% for header, values in seo_report.headers.items() %}
+        <p><strong>{{ header }}:</strong> {{ values|length }} found</p>
+        {% endfor %}
+      </div>
+
+      <h3>Images</h3>
+      <p><strong>Total Images:</strong> {{ seo_report.images.total_images }}</p>
+      <div class="blurred">
+        <p>
+          <strong>Missing Alt Attributes:</strong> {{
+          seo_report.images.missing_alt|length }}
+        </p>
+      </div>
+
+      <h3>Links</h3>
+      <div class="blurred">
+        <p>
+          <strong>Internal Links:</strong> {{
+          seo_report.links.internal_links|length }}
+        </p>
+        <p>
+          <strong>External Links:</strong> {{
+          seo_report.links.external_links|length }}
+        </p>
+        <p>
+          <strong>Broken Links:</strong> {{ seo_report.links.broken_links|length
+          }}
+        </p>
+      </div>
+
+      <a
+        data-testid="linkElement"
+        data-anchor="dataItem-igl58cjk"
+        href="https://www.noolmedia.in/#mediaiskgjyue23
+        "
+        target="_self"
+        class="UiHgGh contact"
+        aria-haspopup="false"
+        class="contact-button"
+        >Contact Us to Improve Your SEO</a
+      >
+      {% endif %}
+    </div>
+    <footer>
+      <p>@2024 by Nool Media</p>
+    </footer>
+  </body>
+  <script>
+    let button = document.querySelector("button");
+    let item = document.querySelector("button .round");
+
+    button.addEventListener("mouseenter", function (event) {
+      this.classList += " animate";
+
+      let buttonX = event.offsetX;
+      let buttonY = event.offsetY;
+
+      if (buttonY < 24) {
+        item.style.top = 0 + "px";
+      } else if (buttonY > 30) {
+        item.style.top = 48 + "px";
+      }
+
+      item.style.left = buttonX + "px";
+      item.style.width = "1px";
+      item.style.height = "1px";
+    });
+
+    button.addEventListener("mouseleave", function () {
+      this.classList.remove("animate");
+
+      let buttonX = event.offsetX;
+      let buttonY = event.offsetY;
+
+      if (buttonY < 24) {
+        item.style.top = 0 + "px";
+      } else if (buttonY > 30) {
+        item.style.top = 48 + "px";
+      }
+      item.style.left = buttonX + "px";
+    });
+    document.getElementById('hamburger').addEventListener('click', function() {
+    const navItems = document.querySelector('.nav-items');
+    navItems.classList.toggle('active');
+});
+function showLoading() {
+            document.getElementById('loading').classList.add('active');
+        }
+
+        // Function to hide the loading overlay when the page has loaded
+        window.onload = function () {
+            document.getElementById('loading').classList.remove('active');
+        };
+  </script>
+</html>

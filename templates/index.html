@@ -64,8 +64,8 @@
       {% if error %}
       <p class="error">{{ error }}</p>
       {% endif %} {% if seo_report %}
-      <h2>SEO Report for {{ url }}</h2>
-      <p><strong>Score:</strong> {{ score }}/10</p>
+      <!-- <h2 style="text-align: center;">SEO Report for {{ url }}</h2> -->
+      <p style="font-size: 5rem;text-align: center;">Score:</> {{ score }}/10</p>
 
       <h3>Metadata</h3>
       <p>
@@ -124,6 +124,9 @@
       >
       {% endif %}
     </div>
+    <footer>
+      <p>@2024 by Nool Media</p>
+    </footer>
   </body>
   <script>
     let button = document.querySelector("button");
