@@ -3,6 +3,9 @@ import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 import validators
+import asyncio
+import aiohttp
+from concurrent.futures import ThreadPoolExecutor
 
 app = Flask(__name__)
 
@@ -21,30 +24,40 @@ def get_headers(soup):
 
 def get_images(soup):
     images = soup.find_all('img')
-    images_without_alt = [img['src'] for img in images if not img.get('alt')]
-    return {"total_images": len(images), "missing_alt": images_without_alt}
+    missing_alt = []
+    with ThreadPoolExecutor() as executor:
+        for img in images:
+            if not img.get('alt'):
+                missing_alt.append(img['src'])
+    return {"total_images": len(images), "missing_alt": missing_alt}
+
+async def check_link(session, link):
+    try:
+        async with session.head(link, timeout=5) as response:
+            if response.status >= 400:
+                return link, 'broken'
+            return link, 'valid'
+    except:
+        return link, 'broken'
+
+async def fetch_links(base_url, links):
+    internal_links, external_links, broken_links = [], [], []
+    async with aiohttp.ClientSession() as session:
+        tasks = [check_link(session, urljoin(base_url, href)) for href in links]
+        results = await asyncio.gather(*tasks)
+        for href, status in results:
+            link = urljoin(base_url, href)
+            if link.startswith(base_url):
+                internal_links.append(link)
+            else:
+                external_links.append(link)
+            if status == 'broken':
+                broken_links.append(link)
+    return {"internal_links": internal_links, "external_links": external_links, "broken_links": broken_links}
 
 def get_links(soup, base_url):
-    internal_links = []
-    external_links = []
-    broken_links = []
-    
-    for a_tag in soup.find_all('a', href=True):
-        href = a_tag['href']
-        link = urljoin(base_url, href)
-        if link.startswith(base_url):
-            internal_links.append(link)
-        else:
-            external_links.append(link)
-
-        try:
-            response = requests.head(link, timeout=5)
-            if response.status_code >= 400:
-                broken_links.append(link)
-        except requests.RequestException:
-            broken_links.append(link)
-    
-    return {"internal_links": internal_links, "external_links": external_links, "broken_links": broken_links}
+    links = [a['href'] for a in soup.find_all('a', href=True)]
+    return asyncio.run(fetch_links(base_url, links))
 
 def calculate_seo_score(report):
     score = 10
@@ -77,8 +90,6 @@ def calculate_seo_score(report):
 def index():
     return render_template('index.html')
 
-
-
 @app.route('/seo_report', methods=['POST'])
 def seo_report():
     url = request.form['url']
@@ -88,14 +99,20 @@ def seo_report():
     try:
         response = requests.get(url, timeout=10)
         response.raise_for_status()
-        soup = BeautifulSoup(response.text, 'html.parser')
+        soup = BeautifulSoup(response.text, 'lxml')  # Using lxml for faster parsing
     except requests.RequestException as e:
         return render_template('index.html', error=f"Failed to analyze the URL: {e}")
 
-    metadata = get_metadata(soup)
-    headers = get_headers(soup)
-    images = get_images(soup)
-    links = get_links(soup, url)
+    # Optimize analysis by threading and async tasks
+    with ThreadPoolExecutor() as executor:
+        metadata_future = executor.submit(get_metadata, soup)
+        headers_future = executor.submit(get_headers, soup)
+        images_future = executor.submit(get_images, soup)
+        links = get_links(soup, url)  # Concurrent link analysis
+
+    metadata = metadata_future.result()
+    headers = headers_future.result()
+    images = images_future.result()
     report = {
         "metadata": metadata,
         "headers": headers,
@@ -106,8 +123,6 @@ def seo_report():
 
     # Render the report on the new page with improvements
     return render_template('report.html', seo_report=report, score=score, url=url, improvements=improvements)
-
-
 
 if __name__ == "__main__":
     app.run(debug=True)

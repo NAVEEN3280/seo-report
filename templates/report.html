@@ -26,7 +26,9 @@
         <li>
           <a href="https://www.noolmedia.in/#comp-lsvshvef1">Lets Talk</a>
         </li>
-        <li><a href="https://www.noolmedia.in/#portfolio">Portfolio</a></li>
+        <li>
+          <li><a href="https://seo-report.onrender.com/"><button class="sitescore" >Site score ></button></a></li>
+        </li>
       </ul>
       <div class="hamburger" id="hamburger">
         <span></span>
@@ -34,8 +36,7 @@
         <span></span>
       </div>
     </nav>
-    <h1>SEO Report for {{ url }}</h1>
-    <p style="font-size: 5rem; text-align: center">
+    <p class="score" style="font-size: 5rem; text-align: center; width: 100%">
       <strong>Score:</strong> {{ score }}/10
     </p>
     <div class="report-container">
@@ -90,16 +91,19 @@
         </li>
         {% endif %}
       </ul>
+      <a class="back-home" href="https://www.noolmedia.in/#comp-lsvshvef1"
+      ><button class="new-btn" type="submit">
+        Click Here to get detail report
+        <span class="round" /></button
+    ></a>
     </div>
-    <div class="back-home">
-      <a href="https://www.noolmedia.in/#comp-lsvshvef1"
-        >Click here to get the detailed report</a
-      >
-    </div>
+    
   </body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
   <script>
-    let button = document.querySelector("button");
-    let item = document.querySelector("button .round");
+    let button = document.querySelector(".new-btn");
+    let item = document.querySelector(".new-btn .round");
 
     button.addEventListener("mouseenter", function (event) {
       this.classList += " animate";
@@ -133,8 +137,29 @@
     });
     document.getElementById("hamburger").addEventListener("click", function () {
       const navItems = document.querySelector(".nav-items");
-      navItems.classList.toggle("active");
+
+      // Check if the nav items are currently visible
+      if (navItems.classList.contains("active")) {
+        // Animate the menu out
+        gsap.to(navItems, {
+          duration: 0.5, // Animation duration (in seconds)
+          y: -50, // Slide up
+          opacity: 0, // Fade out
+          onComplete: () => navItems.classList.remove("active"), // Remove active class
+        });
+      } else {
+        // Add the active class to make it visible
+        navItems.classList.add("active");
+
+        // Animate the menu in
+        gsap.fromTo(
+          navItems,
+          { y: -50, opacity: 0 }, // Starting position (offscreen and transparent)
+          { y: 0, opacity: 1, duration: 0.5 } // Target position (onscreen and visible)
+        );
+      }
     });
+
     function showLoading() {
       document.getElementById("loading").classList.add("active");
     }

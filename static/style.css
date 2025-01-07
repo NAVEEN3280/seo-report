@@ -13,9 +13,11 @@ body {
 }
 .back-home {
   position: relative;
-  margin: 0 auto;
-  width: 100%;
+  margin: 0rem auto;
+  align-self: center;
   text-align: center;
+  display: block;
+  padding: 0 0 2rem 0;
 }
 .back-home a {
   text-decoration: none;
@@ -25,6 +27,10 @@ body {
 }
 .report-container {
   margin: 2rem;
+  display: flex;
+  font-size: 1.5rem;
+  flex-direction: column;
+  align-items: center;
 }
 .bg {
   width: 100%;
@@ -125,6 +131,23 @@ form {
   color: #333;
   font-weight: bold;
 }
+.sitescore {
+  width: 150px;
+  height: 50px;
+  border-radius: 5px;
+  align-self: center;
+  background-color: #f36c21;
+  color: #fff;
+  text-transform: none;
+  font-size: 14px;
+  transition: 0.5;
+  border: none;
+}
+.sitescore:hover {
+  color: #000;
+  background-color: #fff;
+  border: 1px solid #000;
+}
 
 input[type="url"] {
   width: 70%;
@@ -135,7 +158,7 @@ input[type="url"] {
   outline: none;
 }
 
-button {
+.new-btn {
   position: relative;
   border: 2px solid #ffffff;
   border-radius: 500px;
@@ -150,12 +173,12 @@ button {
   font-weight: 700;
 }
 
-button:hover {
+.new-btn:hover {
   cursor: pointer;
   border: 2px solid #f60157;
 }
 
-button .round {
+.new-btn .round {
   border-radius: 50%;
   background-color: #d41c64;
   position: absolute;
@@ -165,7 +188,7 @@ button .round {
   animation: scale-down 0.4s forwards;
 }
 
-button.animate .round {
+.new-btn.animate .round {
   animation: scale-up 0.7s forwards;
 }
 
@@ -252,6 +275,7 @@ footer {
   justify-content: space-evenly; /* Distribute items evenly */
   padding: 0;
   flex-basis: 50%;
+  align-items: center;
 }
 
 .nav-items li {
@@ -276,12 +300,15 @@ footer {
     width: 100%;
     flex-direction: column;
     position: absolute;
-    top: 70px;
+    top: 99px;
     left: 0;
     background-color: white;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
     text-align: center;
+  }
+  .score {
+    font-size: 3.5rem !important;
   }
 
   .nav-items li {

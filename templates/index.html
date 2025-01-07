@@ -42,7 +42,7 @@
             <li><a href="https://www.noolmedia.in/blog">Blog</a></li>
             <li><a href="https://www.noolmedia.in/#comp-lsvshvee">Projects</a></li>
             <li><a href="https://www.noolmedia.in/#comp-lsvshvef1">Lets Talk</a></li>
-            <li><a href="https://www.noolmedia.in/#portfolio">Portfolio</a></li>
+            <li><a href="https://seo-report.onrender.com/"><button class="sitescore">Site score ></button></a></li>
         </ul>
         <div class="hamburger" id="hamburger">
             <span></span>
@@ -56,7 +56,7 @@
     <div class="container">
       <form action="/seo_report" method="POST">
         <input type="url" name="url" placeholder="Enter Website URL" required />
-        <button type="submit">
+        <button class="new-btn" type="submit">
           AUDIT
           <span class="round" />
         </button>
@@ -129,8 +129,8 @@
     </footer>
   </body>
   <script>
-    let button = document.querySelector("button");
-    let item = document.querySelector("button .round");
+    let button = document.querySelector(".new-btn");
+    let item = document.querySelector(".new-btn .round");
 
     button.addEventListener("mouseenter", function (event) {
       this.classList += " animate";
