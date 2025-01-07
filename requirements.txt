@@ -5,3 +5,4 @@ urllib3==2.2.3
 validators==0.34.0
 gunicorn
 aiohttp
+lxml
