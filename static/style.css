@@ -165,7 +165,7 @@ input[type="url"] {
   width: 200px;
   height: 48px;
   overflow: hidden;
-  background-color: transparent;
+  background-color: #d41c64;
   text-transform: uppercase;
   color: #ffffff;
   font-size: 14px;
@@ -176,11 +176,12 @@ input[type="url"] {
 .new-btn:hover {
   cursor: pointer;
   border: 2px solid #f60157;
+  color: pink;
 }
 
 .new-btn .round {
   border-radius: 50%;
-  background-color: #d41c64;
+  background-color: #fff;
   position: absolute;
   top: 5px;
   left: 10px;
