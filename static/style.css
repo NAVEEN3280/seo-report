@@ -176,7 +176,7 @@ input[type="url"] {
 .new-btn:hover {
   cursor: pointer;
   border: 2px solid #f60157;
-  color: pink;
+  color: #000;
 }
 
 .new-btn .round {
