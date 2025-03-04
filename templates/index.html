@@ -16,7 +16,7 @@
         text-align: center;
         padding: 10px 20px;
         font-size: 16px;
-        background-color: #218838;
+        background-color: #28a745;
         color: white;
         border: none;
         border-radius: 5px;
@@ -24,11 +24,15 @@
         cursor: pointer;
       }
       .contact-button:hover {
-        background-color: #28a745;
+        background-color: #218838;
       }
     </style>
   </head>
   <body>
+    <div id="loading" class="loading-overlay">
+      <div class="spinner"></div>
+      <p>Generating SEO Report...</p>
+  </div>
     <div class="bg"></div>
     
     <nav class="navbar">
@@ -51,10 +55,10 @@
         </div>
     </nav>
     
-    </div>
+   
     <h1>SEO Audit & Reporting Tool</h1>
     <div class="container">
-      <form action="/seo_report" method="POST">
+      <form action="/seo_report" method="POST"  onsubmit="showLoading()">
         <input type="url" name="url" placeholder="Enter Website URL" required />
         <button class="new-btn" type="submit">
           AUDIT
@@ -167,12 +171,23 @@
     navItems.classList.toggle('active');
 });
 function showLoading() {
-            document.getElementById('loading').classList.add('active');
-        }
+        document.getElementById('loading').classList.add('active');
+    }
 
-        // Function to hide the loading overlay when the page has loaded
-        window.onload = function () {
-            document.getElementById('loading').classList.remove('active');
-        };
+    function hideLoading() {
+        document.getElementById('loading').classList.remove('active');
+    }
+
+    window.onload = function () {
+        hideLoading(); // Hide loading animation when the page is loaded
+    };
+
+    // Detect when the user navigates back and refresh the page
+    window.addEventListener("pageshow", function (event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    });
   </script>
+
 </html>
