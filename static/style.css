@@ -92,7 +92,7 @@ body {
 .container {
   position: relative;
   left: 50%;
-  bottom: -20%;
+  margin-bottom: 2rem;
   transform: translateX(-50%);
   width: 60%;
   font-weight: 500;
