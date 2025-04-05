@@ -260,6 +260,90 @@ footer {
   width: 100%;
   color: #333;
 }
+footer {
+  position: relative;
+  background-color: #fff;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  bottom: 0;
+  width: 100%;
+  color: #333;
+}
+footer a {
+  text-decoration: none;
+  color: rgb(124, 124, 131);
+}
+.f-logo {
+  width: 100%;
+  display: flex;
+  align-items: start;
+  justify-content: start;
+}
+.f-logo img {
+  width: 25%;
+}
+.f-contents {
+  display: flex;
+  flex-direction: row;
+}
+.f-con {
+  flex: 1;
+  margin: 1rem;
+}
+.f-con h2 {
+  color: rgb(124, 124, 131);
+}
+.f-con p {
+  color: rgb(124, 124, 131);
+}
+.q-links {
+  display: flex;
+  flex-direction: row;
+}
+.items {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.items a {
+  padding: 0.5rem;
+  color: rgb(124, 124, 131);
+}
+.items a {
+  padding: 0.5rem;
+}
+.dropdown-container {
+  position: relative;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  background: white;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  min-width: 150px;
+  border-radius: 5px;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+}
+
+.dropdown a {
+  display: block;
+  padding: 10px;
+  color: black;
+  text-decoration: none;
+}
+
+.dropdown a:hover {
+  background: #f1f1f1;
+}
+
+.dropdown-container:hover .dropdown {
+  display: block;
+}
 @keyframes scale-up {
   to {
     transform: scale(600);
@@ -405,6 +489,15 @@ footer {
   }
   .report-container ul {
     padding-inline-start: 20px;
+  }
+  .f-contents {
+    flex-direction: column;
+  }
+  .f-logo {
+    justify-content: center;
+  }
+  .f-logo img {
+    width: 50%;
   }
 }
 @media all and (max-width: 480px) {
